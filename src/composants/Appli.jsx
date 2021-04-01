@@ -9,6 +9,12 @@ import AjouterDossier from './AjouterDossier';
 import * as crudDossiers from '../services/crud-dossiers';
 import * as crudUtilisateurs from '../services/crud-utilisateurs';
 
+import { NativeSelect } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl'
+
 export default function Appli() {
   // État de l'utilisateur (pas connecté = null / connecté = objet FB-Auth spécial)
   const [utilisateur, setUtilisateur] = useState(null);
@@ -49,6 +55,18 @@ export default function Appli() {
     setOuvertAD(false);
   }
 
+  const useStyles = makeStyles((theme) => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+  }));
+
+  const classes = useStyles();
+
   return (
     <div className="Appli">
       {
@@ -57,6 +75,26 @@ export default function Appli() {
           <>
             <Entete utilisateur={utilisateur} />
             <section className="contenu-principal">
+              
+            <FormControl className={classes.formControl}>
+        <InputLabel shrink htmlFor="age-native-label-placeholder">
+          Ordre
+        </InputLabel>
+        <NativeSelect
+          value={1}
+          
+          inputProps={{
+            
+          }}
+        >
+          <option value="">None</option>
+          <option value={10}>Date Modif Desc</option>
+          <option value={20}>Nom Asc</option>
+          <option value={30}>Nom Desc</option>
+        </NativeSelect>
+      </FormControl>
+
+
               <ListeDossiers utilisateur={utilisateur} etatDossiers={etatDossiers} />
               <AjouterDossier ouvert={ouvertAD} setOuvert={setOuvertAD} gererAjout={gererAjouter} />
               <Fab onClick={() => setOuvertAD(true)} className="ajoutRessource" color="primary" aria-label="Ajouter dossier">
